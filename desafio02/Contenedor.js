@@ -5,60 +5,60 @@ class Contenedor {
         this.archivo= nombreArchivo;
         this.maxId= 0;
     }
-    async maximoId(){
-        
-        try {
-            const lectura = await fs.promises.readFile(`./${this.archivo}`,"utf8")
-            if (lectura.length){
-                const lprods=JSON.parse(lectura);
-                this.maxId= Math.max(...lprods.map(ele => ele.id));
-                return this.maxId;
-            }                       
-        } catch (error) {
-            console.log('Error al intentar leer el archivo',error);
 
-        }
-    }
-    async save (obj){
-        const unJson = await this.getAllItems();
-        let objetoClon={...obj, id: this.maximoId()+1};
-        unJson.push(objetoClon);
+    async getElements() {
+        //lee archivo y retorna una promesa con los datos como objetos
         try {
-            await fs.promises.writeFile(`./${this.archivo}`, JSON.stringify(objetoClon))
-            this.maximoId += 1;
-            console.log('Objeto ingresado');
+            const data = await fs.promises.readFile(`./${this.archivo}`, "utf8")
+            return JSON.parse(data);
         } catch (error) {
-            console.log('Error al intentar escribir en el archivo')
+            console.log('Error al leer los elementos del archivo')
         }
     }
+    getAll(){
+        //llama a la promesa que contiene los lementos del archivo
+        this.getElements()
+        .then(data =>{console.log(data);})
+        .catch(error=>{console.log(error)})
+    }
+
+    async save(obj){
+        //conjunto de objetos del archivo
+        let elementos =await this.getElements();
+        //saco el maximo ID de entre los objetos, sino maxId=0
+        if (elementos.length){
+            this.maxId = Math.max(...elementos.map(ele => ele.id));
+        };
+        //creo nuevo objeto agregando campo ID y guardo en elements
+        let objetoClon={...obj, id: this.maxId+1};
+        elementos.push(objetoClon);
+        //almaceno la coleccion en el archivo
+        fs.writeFile(`./${this.archivo}`, JSON.stringify(elementos),(err)=>{
+            if (err){
+                console.log('Error al intentar escribir en el archivo')}
+            else{
+                //si se almacena correctamente actualizo el ID y muestro
+                this.maxId += 1;
+                console.log(this.maxId);}
+        })
+    }
+
     async getById(unId){
-        try {
-            const lectura = await fs.promises.readFile(`./${this.archivo}`,"utf8")
-            const lprods=JSON.parse(lectura);
-            const item = json.find((ele) => ele.id === id);
-            if (typeof item === "undefined") {
-            return null;
-            } else {
-            return item;
-            }
-        } catch (error) {
-            console.log('Error al intentar leer el archivo',error);
-
+        let elemento=null;
+        try{
+            let elementos =await this.getElements();
+            const item = elementos.find((ele) => ele.id === unId);
+            if (item) {elemento=item}
         }
+        catch{console.log('Error buscando por Id',error)}
+        finally{console.log(elemento)}
     }
 
-    async getAllItems() {
-        const data = await fs.promises.readFile(`./${this.archivo}`, "utf8", function (err, data) {
-            if (err) throw err;
-            const json = JSON.parse(data);
-            return json;
-            });
-        return JSON.parse(data);
-    }
 
-    async deleteItemById(unId) {
-        const json = await this.getAllItems();
-        const nuevaLista = json.filter((ele) => ele.id !== unId);
+
+    async deleteById(unId) {
+        const elementos = await this.getElements();
+        const nuevaLista = elementos.filter((ele) => ele.id !== unId);
         fs.writeFile(`./${this.archivo}`, JSON.stringify(nuevaLista), (err) =>{
             if (err) throw err;
             console.log("Elemento Eliminado");
@@ -72,13 +72,26 @@ class Contenedor {
     }
 }
 
-const productos= new Contenedor('productos.json')
+
+const productContainer= new Contenedor('productos.json')
+//1-muestro archivo
+//productContainer.getAll();
+
+
+/*//2-guardo un producto
 const unProd={
     title: 'producto1',
     price: 1.14,
     thumbnail:'http://unaurl.com'
 }
-console.log(productos.maximoId())
-//productos.save(unProd)
+productContainer.save(unProd);*/
+
+/*//3- busco por Id
+productContainer.getById(2);
+productContainer.getById(6);
+*/
+
 //console.log(productos)
+
+
 
