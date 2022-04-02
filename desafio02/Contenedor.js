@@ -54,16 +54,17 @@ class Contenedor {
         finally{console.log(elemento)}
     }
 
-
-
     async deleteById(unId) {
         const elementos = await this.getElements();
-        const nuevaLista = elementos.filter((ele) => ele.id !== unId);
+        console.log('Elelementos',elementos);
+        const nuevaLista = elementos.filter(ele => ele.id !== unId);
+        console.log('nuevaLista',nuevaLista);
         fs.writeFile(`./${this.archivo}`, JSON.stringify(nuevaLista), (err) =>{
             if (err) throw err;
             console.log("Elemento Eliminado");
             });
     }
+
     deleteAll(){
         fs.truncate(`./${this.archivo}`,0,function (err) {
             if (err) throw err;
@@ -72,26 +73,4 @@ class Contenedor {
     }
 }
 
-
-const productContainer= new Contenedor('productos.json')
-//1-muestro archivo
-//productContainer.getAll();
-
-
-/*//2-guardo un producto
-const unProd={
-    title: 'producto1',
-    price: 1.14,
-    thumbnail:'http://unaurl.com'
-}
-productContainer.save(unProd);*/
-
-/*//3- busco por Id
-productContainer.getById(2);
-productContainer.getById(6);
-*/
-
-//console.log(productos)
-
-
-
+module.exports= Contenedor;
