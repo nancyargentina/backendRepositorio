@@ -3,6 +3,8 @@ const app= express()
 const productRouter = require("./products")
 app.use("/api/productos", productRouter)
 
+app.use(express.static("public"))
+
 
 app.get("/",(req,res)=>{
     res.send(`<h1>Desafío 4 - Api restful</h1>
