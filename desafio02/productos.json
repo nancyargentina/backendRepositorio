@@ -1,0 +1,20 @@
+[
+    {
+      "title": "producto1",
+      "price": 321.1,
+      "thumbnail": "https://via.placeholder.com/150/92c952",
+      "id": 1
+    },
+    {
+      "title":"producto2",
+      "price": 123.23,
+      "thumbnail": "https://via.placeholder.com/150/771796",
+      "id": 2
+    },
+    {
+      "title": "producto3",
+      "price": 345.67,
+      "thumbnail": "https://via.placeholder.com/150/24f353",
+      "id": 3
+    }
+  ]
