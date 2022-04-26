@@ -1,9 +1,13 @@
 const express= require("express")
 const app= express()
 const productRouter = require("./products")
+//descomentar linea 5 y comentar linea 6 para probar JSON
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 app.use("/api/productos", productRouter)
 
 app.use(express.static("public"))
+
 
 
 app.get("/",(req,res)=>{
