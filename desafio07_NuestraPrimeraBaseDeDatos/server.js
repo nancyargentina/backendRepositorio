@@ -1,5 +1,4 @@
 const express = require("express");
-/*const fs=require("fs");*/
 const productRouter = require("./routes/products")
 const {engine} = require("express-handlebars");
 const app= express();
@@ -12,17 +11,17 @@ const server = http.createServer(app)
 //Socket IO
 const {Server}=require("socket.io")
 const io= new Server(server)
-//contenedor de mensajes
-let MsnContenedor = require('./mensajes');
-const msnContainer= new MsnContenedor('./datas/mensajes.json');
 
+//contenedor de mensajes
+const knexsqlite = require ('./db/dbmsnConfig')
+let MsnContenedor = require('./DAC/mensajeContenedor');
+const msnContainer= new MsnContenedor('mensajes',knexsqlite);
 
 //contenedor de productos
-//let Contenedor = require('./productosContenedor');
 let Contenedor = require('./DAC/productContenedor');
 const knexmysql = require ('./db/dbConfig');
 const productContainer= new Contenedor('productos', knexmysql);
-//const productContainer= new Contenedor('./datas/productos.json');
+
 
 //uso motor de plantillas HANDLEBARS
 app.set("view engine", "hbs");//motor handlebars
@@ -47,7 +46,7 @@ io.on("connection",async(socket)=>{
     console.log("usuarios conectado")
 
     socket.emit("productos" ,await productContainer.getElements()) //envio productos 
-    socket.emit("msn_send", msnContainer.getElements());//envio mensajes de usuarios
+    socket.emit("msn_send", await msnContainer.getElements());//envio mensajes de usuarios
 
     //al recibir un producto guardo y lo muestro
     socket.on("CargarProducto",async(data)=>{
@@ -56,9 +55,9 @@ io.on("connection",async(socket)=>{
     })
 
     //al recibir msj de chat guardo y lo muestro
-    socket.on ("mensaje_chat",(data)=>{
-        msnContainer.save(data)
-        io.sockets.emit("msn_send", msnContainer.getElements())
+    socket.on ("mensaje_chat",async(data)=>{
+        await msnContainer.save(data)
+        io.sockets.emit("msn_send", await msnContainer.getElements())
     })
 })
 
