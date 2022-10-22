@@ -14,13 +14,15 @@ const io= new Server(server)
 
 //contenedor de mensajes
 const knexsqlite = require ('./db/dbmsnConfig')
+const knexsqliteModel = require('./db/models/msnModels')
 let MsnContenedor = require('./DAC/mensajeContenedor');
 const msnContainer= new MsnContenedor('mensajes',knexsqlite);
 
 //contenedor de productos
+const config =require('./db/dbConfig')
+const productModel= require('./db/models/productModel')
 let Contenedor = require('./DAC/productContenedor');
-const knexmysql = require ('./db/dbConfig');
-const productContainer= new Contenedor('productos', knexmysql);
+const productContainer= new Contenedor('productos', config);
 
 
 //uso motor de plantillas HANDLEBARS

@@ -1,16 +1,15 @@
-const knexmysql = require ('../db/dbConfig');
-
+const knex = require('knex')
 
 class ProductosContenedor {
-    constructor(nombreTabla, objConector) {
-        this.tabla = nombreTabla;
-        this.db = objConector;
+    constructor(nombreTabla, config) {
+        this.tabla = nombreTabla
+        this.knex = knex(config)
     }
 
     async getElements() {
         try {
             //lee la tabla y retorna los mensajes
-            let data = await knexmysql.select().table(this.tabla);
+            let data = await this.knex.select().table(this.tabla);
             //console.log(data)
             return data;
         } catch (error) {
@@ -31,7 +30,7 @@ class ProductosContenedor {
        try {
             //almaceno la coleccion en el archivo
             //insert into products (title, price, mensaje) value(vtitle, vprice,vmensaje)
-            const prodNuevo = await knexmysql.insert({ title, price, thumbnail }).from(this.tabla);
+            const prodNuevo = await this.knex.insert({ title, price, thumbnail }).from(this.tabla);
             //si se almacena correctamente actualizo el ID y muestro
             console.log("producto almacenado");
             console.log(prodNuevo);
@@ -44,7 +43,7 @@ class ProductosContenedor {
 
     async getById(unId){
         try{
-            let elementos =await knexmysql.select().table(this.tabla).where('id',unId);;
+            let elementos =await this.knex.select().table(this.tabla).where('id',unId);;
             return elementos
         } catch (error) {
             throw error;
@@ -52,7 +51,7 @@ class ProductosContenedor {
     }
     async deleteById(unId) {
         try {
-            const eliminados =  await knexmysql(this.tabla).where('id',unId).delete()
+            const eliminados =  await this.knex(this.tabla).where('id',unId).delete()
             return eliminados
         } catch (error) {
             throw error;
@@ -60,7 +59,7 @@ class ProductosContenedor {
     }
     async deleteAll(){
         try {
-            await knexmysql(this.tabla).truncate()
+            await this.knex(this.tabla).truncate()
         } catch (error) {
             throw error;
         }
