@@ -1,0 +1,26 @@
+<main class="container">
+    <h1 class="text-center text-uppercase">Productos</h1>
+    {{#if data}}
+        <table class="table table-dark table-hover table-sm align-middle">
+            <thead>
+                <tr class="text-uppercase">
+                    <th>titulo</th>
+                    <th>precio</th>
+                    <th>Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                    <tr>
+                        <td>{{this.title}}</td>
+                        <td> {{this.price}} </td>
+                        <td><img src={{this.thumbnail}} /></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <h4>No se encontraron productos</h4>
+    {{/if}}
+    <a class="btn btn-info mx-auto m-3" href="/" role="button">Cargar productos</a>
+</main>
