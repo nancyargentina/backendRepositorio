@@ -1,4 +1,4 @@
-const config = {
+const mysqlconfig = {
     client: "mysql",
     connection: {
         host: "localhost",
@@ -8,4 +8,4 @@ const config = {
         database: "ecommercetf",
     },
 };
-module.exports= config
+module.exports= mysqlconfig

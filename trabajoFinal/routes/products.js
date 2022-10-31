@@ -1,15 +1,16 @@
 const express = require("express");
-const fs = require("fs");
+//const fs = require("fs");
 const { Router } = express;
 //contenedor de productos
-let ArchivoContenedor = require("../contenedores/productsFileContenedor");
-const productContainer = new ArchivoContenedor('../../data/productos.json');
+//let ArchivoContenedor = require("../contenedores/productsFileContenedor");
+//const productContainer = new ArchivoContenedor('../../data/productos.json');
+const productDao =require('../daos/index')
 
 let router = new Router();
 //devuelve todos los productos
 router.get("/", async (req, res) => {
     try {
-        let elementos = await productContainer.getElements();
+        let elementos = await productDao.getElements();
         res.send({ data: elementos });
     } catch (error) {
         res.send({ error: "Error al leer archivo" });
@@ -21,7 +22,7 @@ router.get("/:id", async(req, res) => {
     //guardo ID
     let unID = Number(req.params.id )
     //busco elemento por ID
-    const elemento= await  productContainer.getById(unID)
+    const elemento= await  productDao.getById(unID)
       if(elemento.length!==0){
         res.send({"data":elemento});
       }
@@ -45,7 +46,7 @@ router.post("/", async (req, res) => {
             codigo: req.body.codigo,
             stock: Number(req.body.stock),
         };
-        let maxId = await productContainer.save(objetoClon);
+        let maxId = await productDao.save(objetoClon);
         res.send({maxId});
     } catch (error) {
         res.send({ error: "Error al almacenar" });
@@ -55,7 +56,7 @@ router.post("/", async (req, res) => {
 //elimino un producto segun su ID
 router.delete("/:id", async(req, res) => {
     try {
-        await productContainer.deleteById(Number(req.params.id));
+        await productDao.deleteById(Number(req.params.id));
         res.send("Elemento Eliminado");
     } catch (error) {
         res.send({ error: "producto no encontrado" });
@@ -76,7 +77,7 @@ router.put("/:id", async (req, res) => {
             codigo: req.body.codigo,
             stock: Number(req.body.stock),
         };
-        let productModified = await productContainer.update(objetoClon);
+        let productModified = await productDao.update(objetoClon);
         res.send(productModified);
     } catch (error) {
         res.send({ error: "Error al leer archivo" });

@@ -1,4 +1,3 @@
-const { json } = require("express");
 let fs = require("fs");
 
 class ArchivoContenedor {

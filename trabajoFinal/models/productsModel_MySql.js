@@ -1,7 +1,7 @@
-const config= require('../mysqlConfig')
+const mysqlconfig= require('../dbsConfig')
 const knex= require('knex')
 
-const productModel= knex(config)
+const productModel= knex(mysqlconfig)
 
 productModel.schema
     .hasTable("productos")
@@ -9,13 +9,13 @@ productModel.schema
         if (!exists) {
             return productModel.schema.createTable("productos", function (table) {
                 table.increments("id").primary().notNullable();
+                table.bigint("timestamp").notNullable();
                 table.string("nombre").notNullable();
-                table.strring("descripcion").notNullable();
-                table.integer("precio").notNullable();
-                table.string("foto").notNullable();
+                table.string("descripcion").notNullable();
                 table.string("codigo").notNullable();
+                table.string("foto").notNullable();
+                table.integer("precio").notNullable();
                 table.integer("stock").notNullable();
-                table.bigint("stamp").notNullable()
             });
         }
     })
