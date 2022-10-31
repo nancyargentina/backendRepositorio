@@ -39,7 +39,7 @@ class MysqlContenedor {
 
     async getById(unId){
         try{
-            let elementos =await this.knex.select().table(this.tabla).where('id',unId);
+            let elementos =await this.knex.select().table(this.tabla).where('id',Number(unId));
             return elementos
         } catch (error) {
             throw error;
@@ -48,6 +48,7 @@ class MysqlContenedor {
 
     async update(obj) {
         try {
+            obj.id = Number(obj.id)
             await this.knex(this.tabla).where('id',obj.id).update(obj)
             return(obj);
         } catch (error) {
@@ -57,7 +58,7 @@ class MysqlContenedor {
 
     async deleteById(unId) {
         try {
-            const eliminados =  await this.knex(this.tabla).where('id',unId).delete()
+            const eliminados =  await this.knex(this.tabla).where('id',Number(unId)).delete()
             return eliminados
         } catch (error) {
             throw error;

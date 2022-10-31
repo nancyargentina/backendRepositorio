@@ -30,7 +30,7 @@ class ArchivoContenedor {
             //traigo todos los elementos
             let elementos = await this.getElements();
             //busco segun Id entre Elementos
-            const item = elementos.find((ele) => ele.id === unId)
+            const item = elementos.find((ele) => ele.id === Number(unId))
             return (item);
         } catch (error){
             console.log("Error buscando por Id", error);
@@ -60,7 +60,7 @@ class ArchivoContenedor {
     async deleteById(unId) {
         try {
             const elementos = await this.getElements();
-            const nuevaLista = elementos.filter((ele) => ele.id !== unId);
+            const nuevaLista = elementos.filter((ele) => ele.id !== Number(unId));
             fs.writeFile(`.${this.archivo}`, JSON.stringify(nuevaLista), (err) => {
                 if (err) throw err;
                 return(unId);
@@ -80,6 +80,7 @@ class ArchivoContenedor {
     async update(obj) {
         try {
             //conjunto de objetos del archivo
+            obj.id = Number(obj.id)
             let elementos = await this.getElements();
             const listafiltrada = elementos.filter(
                     (ele) => ele.id !== obj.id

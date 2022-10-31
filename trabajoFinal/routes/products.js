@@ -20,7 +20,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async(req, res) => {
   try{
     //guardo ID
-    let unID = Number(req.params.id )
+    //let unID = Number(req.params.id )
+    let unID =req.params.id
     //busco elemento por ID
     const elemento= await  productDao.getById(unID)
       if(elemento.length!==0){
@@ -56,7 +57,7 @@ router.post("/", async (req, res) => {
 //elimino un producto segun su ID
 router.delete("/:id", async(req, res) => {
     try {
-        await productDao.deleteById(Number(req.params.id));
+        await productDao.deleteById(req.params.id);
         res.send("Elemento Eliminado");
     } catch (error) {
         res.send({ error: "producto no encontrado" });
@@ -68,7 +69,8 @@ router.put("/:id", async (req, res) => {
     try {
         //creo nuevo objeto agregando campo ID y guardo en elements
         let objetoClon = {
-            id: Number(req.params.id),
+            //id: Number(req.params.id),
+            id: req.params.id,
             timestamp: Date.now(),
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,

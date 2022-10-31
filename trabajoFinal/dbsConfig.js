@@ -8,4 +8,4 @@ const mysqlconfig = {
         database: "ecommercetf",
     },
 };
-module.exports= mysqlconfig
+module.exports = mysqlconfig
