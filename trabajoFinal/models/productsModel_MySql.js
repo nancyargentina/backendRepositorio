@@ -1,4 +1,4 @@
-const mysqlconfig= require('../dbsConfig')
+const mysqlconfig= require('../data/dbsConfig')
 const knex= require('knex')
 
 const productModel= knex(mysqlconfig)
