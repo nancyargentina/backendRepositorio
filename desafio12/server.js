@@ -29,7 +29,7 @@ const cookieParser= require('cookie-parser')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const sessionRouter = require ('./routes/session')
-
+const auth =require('./auth/auth')
 //uso motor de plantillas HANDLEBARS
 app.set("view engine", "hbs");//motor handlebars
 app.set("views","./views"); //vistas hbs
@@ -41,9 +41,6 @@ engine({extname:".hbs",
     layoutsDir: __dirname + "/views/layouts"
 }))
 app.use(express.static( __dirname + "/public") )
-app.use("/", productRouter)
-app.use("/productos-test", productTestRouter)
-app.use('/', sessionRouter)
 
 app.use(session({
     secret: 'mongoKey',
@@ -53,8 +50,12 @@ app.use(session({
     //,cookie:{maxAge:30000}
   }));
 
-app.get("/", (req,res)=>{
-    res.render("login")
+app.use("/", productRouter)
+app.use("/productos-test", productTestRouter)
+app.use('/', sessionRouter)
+
+app.get("/",auth, (req,res)=>{
+    res.render("insertProduct",{data:req.session.nombre})
 })
 
 
