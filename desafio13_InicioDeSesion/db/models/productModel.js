@@ -16,7 +16,7 @@ productModel.schema
         }
     })
     .then(() => {
-        console.log("Tabla Creada");
+        console.log("Tabla productos Creada MySql");
     })
     .catch((err) => {
         throw err;

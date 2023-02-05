@@ -6,6 +6,7 @@ let Contenedor = require('../DAC/productContenedor');
 //const productContainer= new Contenedor('./datas/productos.json');
 const knexmysql = require ('../db/dbConfig');
 const productContainer= new Contenedor('productos',knexmysql);
+const auth =require('../auth/auth')
 
 let router =  new Router();
 //devuelve todos los productos
@@ -62,4 +63,9 @@ router.post("/productos",async(req, res)=>{
     })*/
 })
 
+router.get('/insertProduct',auth,(req,res)=>{
+    console.log("entro en products/ insertProduct")
+    console.log(req.user)
+    res.render("insertProduct",{data:{name:req.user.nombre,email:req.user.email}})
+})
 module.exports = router

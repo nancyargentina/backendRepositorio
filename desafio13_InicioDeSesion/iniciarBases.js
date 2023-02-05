@@ -16,3 +16,5 @@ conexion()
 let userContenedor =require('./DAC/userContenedor')
 const userModel = require('./db/models/userModel')
 const userContainer= new userContenedor(userModel)
+
+module.exports= {msnContainer,productContainer,userContainer}
