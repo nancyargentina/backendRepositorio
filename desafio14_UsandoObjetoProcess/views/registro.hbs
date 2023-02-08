@@ -1,0 +1,22 @@
+<main class="container  bg-opacity-25 bg-secondary rounded p-3">
+    <h1 class="text-primary">Registro de Usuario</h1>
+    <form action="/registro" method="post" >
+    <div class="mb-3 row">
+        <label for="nombre"class="col-m-2 col-form-label">Nombre: </label>
+        <div class="col-m-6">
+            <input type="text"  class="form-control" name="nombre" id="nombre" placeholder="Escribe tu nombre de usuario" />
+        </div>
+        <label for="email" class="col-m-2 col-form-label">Correo eletrónico: </label>
+        <div class="col-m-6">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Ingresa tu email" />
+        </div>
+        <label for="password" class="col-m-2 col-form-label">Contraseña: </label>
+        <div class="col-m-6">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Ingresa tu password" />
+        </div>
+    </div>
+        <button class="btn btn-success">ENVIAR</button>
+    </form>
+    <hr/>
+    <button class="btn btn-success" onclick="location.href='/login'">Ir a login</button>
+</main>
