@@ -2,6 +2,8 @@ const { PORT } = require('./config.js');
 const express = require("express");
 const productRouter = require("./routes/products");
 const productTestRouter = require("./routes/productos-test");
+const infoRouter=require('./routes/info');
+const randomRouter=require('./routes/randoms')
 const app = express();
 //recibo /envio json
 app.use(express.json());
@@ -62,6 +64,8 @@ app.use(passport.session())
 app.use("/", productRouter);
 app.use("/productos-test", productTestRouter);
 app.use("/", sessionRouter);
+app.use("/info",infoRouter);
+app.use('/randoms',randomRouter);
 
 
 app.get("/", auth, (req, res) => {
