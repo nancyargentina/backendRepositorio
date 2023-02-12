@@ -1,0 +1,20 @@
+<main class="container">
+    <h1 class="text-center text-uppercase">Información</h1>
+    <table class="table table-dark table-hover table-sm align-middle">
+            <thead>
+                <tr class="text-uppercase">
+                    <th>Dato</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                    <tr>
+                        <td>{{@key}}</td>
+                        <td>{{this}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+            <button class="btn btn-success" onclick="location.href='/login'">Ir a login</button>
+</main>
