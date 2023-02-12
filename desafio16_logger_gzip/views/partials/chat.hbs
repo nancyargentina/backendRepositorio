@@ -1,0 +1,16 @@
+<section class="bg-gradient bg-opacity-50 bg-secondary col-6 p-2 rounded" style="background-image: var(--bs-gradient);">
+    <h2 class="text-center text-uppercase">Centro de Mensajes</h2>
+    <form onsubmit="return EnviaMensaje()" class="w-75 m-3">
+        <div class="mb-3">
+            <label for="correo" class="form-label d-inline">Correo electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo">
+        </div>
+        <hr/>
+        <div class="mb-3" id="mensajes">
+        </div>
+        <div class="m-3 "> 
+            <input type="text" class="form-control w-75 d-inline" id="msn" name="msn">
+            <button type="submit" class="btn btn-primary d-inline mx-auto">Enviar</button>
+        </div>
+    </form>
+</section>
