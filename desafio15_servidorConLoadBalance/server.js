@@ -1,4 +1,4 @@
-const { PORT,MODO } = require('./config.js');
+const { argu } = require('./config.js');
 const express = require("express");
 const cluster = require("cluster");
 const os = require("os");
@@ -96,7 +96,8 @@ io.on("connection", async (socket) => {
 });
 
 /*---------------------------MODOS DE INICIO DE SERVIDOR-------------------------------*/
-if (MODO === "CLUSTER") {
+console.log
+if (argu.m === "CLUSTER") {
     const numProcesadores = os.cpus().length;
 
     if (cluster.isPrimary) {
@@ -109,14 +110,14 @@ if (MODO === "CLUSTER") {
         });
     } else {
         //const app = express();
-        app.listen(PORT, () => {
-            console.log(`Escuchando el puerto ${PORT} - proceso: ${process.pid}`);
+        app.listen(argu.p, () => {
+            console.log(`Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`);
         });
     }
 } else {
     //const app = express();
-    app.listen(PORT, () => {
-        console.log(`Escuchando el puerto ${PORT} - proceso: ${process.pid}`);
+    app.listen(argu.PORT, () => {
+        console.log(`Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`);
     });
 }
 

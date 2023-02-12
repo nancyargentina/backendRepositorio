@@ -22,8 +22,8 @@ const config = {
 
 //espero PUERTO como argumento en linea de comando
 const yargs = require("yargs");
-const { PORT,MODO, _ } = yargs(process.argv.slice(2))
+const argu = yargs(process.argv.slice(2))
     .alias({ p: "PORT", m: "MODO" })
     .default({ p: 8080 }).argv;
-
-module.exports = { config, PORT, MODO };
+console.log('port: ',argu.p,', m: ',argu.m )
+module.exports = { config, argu };

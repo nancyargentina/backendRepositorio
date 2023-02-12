@@ -11,10 +11,11 @@ const datos = {
     memoriaTotal: process.memoryUsage.rss(), //memoria total reservada(rss)
     "Numero de procesadores":os.cpus().length
 };
-//console.log(datos)
+
 let router = new Router();
 //devuelve todos los productos
 router.get("/", (req, res) => {
+    console.log(datos["Id de proceso"])
     res.render("info", { data: datos });
 });
 module.exports = router;
