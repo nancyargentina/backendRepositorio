@@ -7,6 +7,7 @@ let Contenedor = require('../DAC/productContenedor');
 const knexmysql = require ('../db/_dbConfig');
 const productContainer= new Contenedor('productos',knexmysql);
 const auth =require('../auth/auth')
+const logger = log4js.getLogger("custom");
 
 let router =  new Router();
 //devuelve todos los productos
@@ -17,9 +18,9 @@ router.get("/productos",async(req,res)=>{
         res.render("index",{data:elementos})
     }
     else {
+        logger.error(`Error retornando productos: ${err}`);
         res.render("index",{err})
     }
-
 })
 
 //agrega un producto
@@ -29,7 +30,8 @@ router.post("/productos",async(req, res)=>{
         price: Number(req.body.precio)*100,
         thumbnail: req.body.url,
     };
-    await productContainer.save(obj) 
+    const result = await productContainer.save(obj) 
+    result.on('error', (error)=> logger.error(`error al agregar producto: ${error}`))
     res.render("insertProduct")
     
 
@@ -64,8 +66,6 @@ router.post("/productos",async(req, res)=>{
 })
 
 router.get('/insertProduct',auth,(req,res)=>{
-    console.log("entro en products/ insertProduct")
-    console.log(req.user)
     res.render("insertProduct",{data:{name:req.user.nombre,email:req.user.email}})
 })
 module.exports = router

@@ -16,6 +16,7 @@ const datos = {
 let router = new Router();
 //devuelve todos los productos
 router.get("/", (req, res) => {
+    console.log(datos)
     res.render("info", { data: datos });
 });
 router.get("/compresion",compression(), (req, res) => {

@@ -1,6 +1,7 @@
 //const knexsqlite= require ('../dbmsnConfig') 
 const {config} = require('../../config')
 const knex= require('knex')
+const logger=require('../../utils/logs')
 
 const knexsqliteModel = knex(config.knexsqlite)
 
@@ -20,6 +21,7 @@ knexsqliteModel.schema
         console.log("Tabla mensaje Creada");
     })
     .catch((err) => {
+        logger.error(`Error creando base de mensajes: ${err}`);
         throw err;
     });
 
