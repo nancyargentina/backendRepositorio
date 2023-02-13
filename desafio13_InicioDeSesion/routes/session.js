@@ -18,7 +18,7 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
-router.get("errorLogin/", (req, res) => {
+router.get("/errorLogin", (req, res) => {
     res.render("errorLogin");
 });
 

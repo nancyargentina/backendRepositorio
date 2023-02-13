@@ -1,12 +1,13 @@
-const { argu } = require('./config.js');
+const { argu } = require("./config.js");
 const express = require("express");
 const cluster = require("cluster");
 const os = require("os");
 const productRouter = require("./routes/products");
 const productTestRouter = require("./routes/productos-test");
-const infoRouter=require('./routes/info');
-const randomRouter=require('./routes/randoms')
+const infoRouter = require("./routes/info");
+const randomRouter = require("./routes/randoms");
 const app = express();
+const log4js = require("./utils/logs");
 //recibo /envio json
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +18,8 @@ const server = http.createServer(app);
 //Socket IO
 const { Server } = require("socket.io");
 const io = new Server(server);
+const socketMensajes = require("./sockets/socketMensajes");
+const socketproductos = require("./sockets/socketProductos");
 
 //manejo de sesiones de navedor
 const cookieParser = require("cookie-parser");
@@ -26,10 +29,11 @@ const sessionRouter = require("./routes/session");
 
 //manejo de autenticacion
 const auth = require("./auth/auth");
-const passport=require("passport")
-const localPassport=require("./auth/localPassport")
+const passport = require("passport");
+const localPassport = require("./auth/localPassport");
 
-const iniciarBases=require('./iniciarBases')
+const iniciarBases = require("./iniciarBases");
+const logger = log4js.getLogger("custom");
 /*--------------------uso motor de plantillas HANDLEBARS-----------------------------*/
 const { engine } = require("express-handlebars");
 app.set("view engine", "hbs"); //motor handlebars
@@ -60,43 +64,31 @@ app.use(
     })
 );
 /*-------------------------------------Rutas------------------------------------------*/
-app.use(passport.initialize())
-app.use(passport.session())
+
+app.use((req, res, next) => {
+   logger.info(`Ruta consultada: ${req.originalUrl} Metodo ${req.method}`);
+   next();
+});
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", productRouter);
 app.use("/productos-test", productTestRouter);
 app.use("/", sessionRouter);
-app.use("/info",infoRouter);
-app.use('/randoms',randomRouter);
-
+app.use("/info", infoRouter);
+app.use("/randoms", randomRouter);
 
 app.get("/", auth, (req, res) => {
-    console.log("entro en server/ render insertProduct")
+    
     res.render("insertProduct", { data: req.user.nombre });
 });
-
+;
 /*--------------------------------connection a socket----------------------------------*/
-io.on("connection", async (socket) => {
-    console.log("usuarios conectado");
-
-    socket.emit("productos", await iniciarBases.productContainer.getElements()); //envio productos
-    socket.emit("msn_send", await iniciarBases.msnContainer.getElements()); //envio mensajes de usuarios
-
-    //al recibir un producto guardo y lo muestro
-    socket.on("CargarProducto", async (data) => {
-        await iniciarBases.productContainer.save(data);
-        io.sockets.emit("productos", await iniciarBases.productContainer.getElements());
-    });
-
-    //al recibir msj de chat guardo y lo muestro
-    socket.on("mensaje_chat", async (data) => {
-        await iniciarBases.msnContainer.save(data);
-        io.sockets.emit("msn_send", await iniciarBases.msnContainer.getElements());
-    });
-});
+socketproductos (io);
+socketMensajes(io);
 
 /*---------------------------MODOS DE INICIO DE SERVIDOR-------------------------------*/
-console.log
+
 if (argu.m === "CLUSTER") {
     const numProcesadores = os.cpus().length;
 
@@ -108,22 +100,28 @@ if (argu.m === "CLUSTER") {
         cluster.on("exit", () => {
             cluster.fork();
         });
-    } else {
-        //const app = express();
-        app.listen(argu.p, () => {
-            console.log(`Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`);
+    } else {     
+        server.listen(argu.p, () => {
+            console.log(
+                `Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`
+            );
         });
     }
-} else {
-    //const app = express();
-    app.listen(argu.PORT, () => {
-        console.log(`Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`);
+} else {  
+    server.listen(argu.PORT, () => {
+        console.log(
+            `Escuchando el puerto ${argu.PORT} - proceso: ${process.pid}`
+        );
     });
 }
 
-
-
-/*
-server.listen(PORT, () => {
-    console.log("Servidor corriendo");
-});*/
+app.use((req, res, next) => {
+    logger.warn(
+        `Estado: 404. Ruta consultada: ${req.originalUrl}. Metodo ${req.method}`
+    );
+    res.status(404).json({
+        error: -2,
+        descripcion: `ruta ${req.originalUrl} metodo ${req.method} no implementada`,
+    });
+    next();
+});
