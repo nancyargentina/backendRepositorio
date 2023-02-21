@@ -76,7 +76,7 @@ app.use("/", productRouter);
 app.use("/productos-test", productTestRouter);
 app.use("/", sessionRouter);
 app.use("/info", infoRouter);
-app.use("/randoms", randomRouter);
+//app.use("/randoms", randomRouter);
 
 app.get("/", auth, (req, res) => {
     

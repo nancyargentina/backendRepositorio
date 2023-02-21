@@ -1,38 +1,8 @@
-indicacion de puerto: node server.js -p=8085
 
-default --> node server.js
-cluster --> node server.js m=CLUSTER
-fork --> node server.js m=FORK
+node --prof server.js
+artillery quick --count 50 --num 20 --output infoConConsoleLog.txt 'http://localhost:8080/info'
+node --prof-process isolate-conConsole-v8.log > resultProfConConsoleLog.txt
 
-forever start server.js
-forever list: 
-****mostró*************************************
-info:    Forever processes running
-data:        uid  command                            script                                                                             forever pid   id logfile                              uptime
-data:    [0] 9YAJ "C:\Program Files\nodejs\node.exe" C:\_Todo lo Mio\Backend\_32940\Desafios\desafio15_servidorConLoadBalance\server.js                    49076   17392    C:\Users\nmartinez\.forever\9YAJ.log 0:0:1:34.962
-*************************************
-forever start server.js -p 8082
-forever start server.js -p 8083 -m CLUSTER
-
-forever list:
-***************************************************
-info:    Forever processes running
-data:        uid  command                            script                                                                                                forever pid   id logfile                              uptime        
-data:    [0] 9YAJ "C:\Program Files\nodejs\node.exe" C:\_Todo lo Mio\Backend\_32940\Desafios\desafio15_servidorConLoadBalance\server.js                    49076   17392    C:\Users\nmartinez\.forever\9YAJ.log 0:0:15:40.65599999999995
-data:    [1] GsP9 "C:\Program Files\nodejs\node.exe" C:\_Todo lo Mio\Backend\_32940\Desafios\desafio15_servidorConLoadBalance\server.js -p 8082            55208   39720    C:\Users\nmartinez\.forever\GsP9.log 0:0:15:30.072000000000003
-data:    [2] _hSh "C:\Program Files\nodejs\node.exe" C:\_Todo lo Mio\Backend\_32940\Desafios\desafio15_servidorConLoadBalance\server.js -p 8083 -m=CLUSTER 37008   48140    C:\Users\nmartinez\.forever\_hSh.log 0:0:0:8.211   
-******************************************************
-
-forever stopall
-
-fork en puerto 8082 --> pm2 start server.js --name 'unserver' -- --PORT=8082
-fork en puerto 8083 --> pm2 start server.js --name 'dosserver' -- --PORT=8083
-cluster de 2 en puerto 8084 --> pm2 start 'tresserver' -i 2 -- --PORT=8084
-monitorear las consolas --> pm2 monit
-fork en puerto 8080 --> pm2 start server.js --name='ServerFork'
-monitorear las consolas --> pm2 monit
-pm2 stop all
-pm2 delete all
-
-*****************************************
-
+node --prof server.js
+artillery quick --count 50 --num 20 --output infoSinConsoleLog.txt 'http://localhost:8080/info'
+node --prof-process isolate-sinConsole-v8.log > resultProfSinConsoleLog.txt

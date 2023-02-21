@@ -18,3 +18,6 @@
 [2023-02-12T21:12:39.720] [WARN] custom - Estado: 404. Ruta consultada: /otr. Metodo GET
 [2023-02-12T21:12:44.589] [WARN] custom - Estado: 404. Ruta consultada: /favicon.ico. Metodo GET
 [2023-02-12T21:12:52.634] [WARN] custom - Estado: 404. Ruta consultada: /favicon.ico. Metodo GET
+[2023-02-20T15:12:50.411] [WARN] custom - Estado: 404. Ruta consultada: /favicon.ico. Metodo GET
+[2023-02-20T15:28:32.229] [WARN] custom - Estado: 404. Ruta consultada: /179. Metodo GET
+[2023-02-20T15:33:25.196] [WARN] custom - Estado: 404. Ruta consultada: /compresion. Metodo GET

@@ -7,6 +7,7 @@ let Contenedor = require('../DAC/productContenedor');
 const knexmysql = require ('../db/_dbConfig');
 const productContainer= new Contenedor('productos',knexmysql);
 const auth =require('../auth/auth')
+const log4js = require("../utils/logs");
 const logger = log4js.getLogger("custom");
 
 let router =  new Router();
