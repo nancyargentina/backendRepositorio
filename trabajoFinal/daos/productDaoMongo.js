@@ -1,5 +1,5 @@
 //const conexion = require('../dbMongoConfig')
-const productMongoContenedor = require('../contenedores/productMongoContenedor')
+const productMongoContenedor = require('../contenedores/mongoContenedor')
 const productModel = require('../models/productsModel_mongo')
 
 class productMongoDao extends productMongoContenedor{

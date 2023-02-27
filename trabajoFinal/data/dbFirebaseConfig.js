@@ -1,7 +1,7 @@
-
+const {config}= require('../config')
 let admin = require("firebase-admin");
 
-let serviceAccount = require("../ecommercetf-95f5f-firebase-adminsdk-cgizk-ced73149d3.json");
+let serviceAccount = require(config.fireBaseConnectionString);
 //conecto a firebase
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)

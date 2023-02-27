@@ -2,7 +2,6 @@ const express = require("express");
 const { Router } = express;
 const passport = require("passport");
 
-
 let userContenedor = require("../DAC/userContenedor");
 const userModel = require("../db/models/userModel");
 const userContainer = new userContenedor(userModel);
@@ -17,11 +16,9 @@ router.get("/", auth, (req, res) => {
 router.get("/login", (req, res) => {
     res.render("login");
 });
-
 router.get("/errorLogin", (req, res) => {
     res.render("errorLogin");
 });
-
 router.get("/logout",auth, (req, res) => {
     const nombre = req.user.nombre;
     req.logout((error) => {
@@ -38,7 +35,6 @@ router.post("/login",
         successRedirect: "/insertProduct",
     })
 );
-
 /*router.post("/login",async (req, res) => {
    // login con session sin passport
     const existe = await userContainer.userValidate(req.body.email,req.body.password)
@@ -54,23 +50,20 @@ router.post("/login",
         res.render('errorLogin')
     }
 }); */
-
 /*-------------------------------registracion------------------------------------------------*/
 router.get("/registro", (req, res) => {
     res.render("registro");
 });
-
 router.get("/errorRegistro", (req, res) => {
     res.render("errorRegistro");
 });
-
 router.post("/registro",
     passport.authenticate("registro", {
         failureRedirect: "/errorRegistro",
         successRedirect: "/insertProduct",
     })
 );
-/* router.post("/registro",async(req,res)=>{
+/*router.post("/registro",async(req,res)=>{
     // registro con session sin passport
     const { nombre, email, password } = req.body;
     const existe = await userContainer.userRegisted(email,password)

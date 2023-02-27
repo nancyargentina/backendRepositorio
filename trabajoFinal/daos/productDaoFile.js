@@ -1,5 +1,5 @@
 //contenedor de productos
-const ArchivoContenedor =require('../contenedores/productsFileContenedor')
+const ArchivoContenedor =require('../contenedores/fileContenedor')
 
 class productDaoFile extends ArchivoContenedor {
 constructor(){

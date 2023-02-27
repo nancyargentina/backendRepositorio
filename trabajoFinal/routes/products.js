@@ -1,21 +1,9 @@
 const express = require("express");
-//const fs = require("fs");
 const { Router } = express;
-//contenedor de productos
-//let ArchivoContenedor = require("../contenedores/productsFileContenedor");
-//const productContainer = new ArchivoContenedor('../../data/productos.json');
-const productDao =require('../daos/index')
-
+const product =require('../controllers/productController')
 let router = new Router();
 //devuelve todos los productos
-router.get("/", async (req, res) => {
-    try {
-        let elementos = await productDao.getElements();
-        res.send({ data: elementos });
-    } catch (error) {
-        res.send({ error: "Error al leer archivo" });
-    }
-});
+router.get("/", product.getProductsController);
 //devuelve el producto segun su ID
 router.get("/:id", async(req, res) => {
   try{
@@ -25,10 +13,10 @@ router.get("/:id", async(req, res) => {
     //busco elemento por ID
     const elemento= await  productDao.getById(unID)
       if(elemento.length!==0){
-        res.send({"data":elemento});
+        res.json({"data":elemento});
       }
       else{
-        res.send({ error: "producto no encontrado" });
+        res.json({ error: "producto no encontrado" });
       }
   } catch(error){
     console.log(error)
@@ -85,5 +73,6 @@ router.put("/:id", async (req, res) => {
         res.send({ error: "Error al leer archivo" });
     }
 });
+
 
 module.exports = router;

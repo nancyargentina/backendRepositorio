@@ -1,7 +1,7 @@
-const mysqlconfig= require('../data/dbsConfig')
+const {config}= require('../config')
 const knex= require('knex')
 
-const productModel= knex(mysqlconfig)
+const productModel= knex(config.knexMysql)
 
 productModel.schema
     .hasTable("productos")

@@ -1,4 +1,4 @@
-const FirebaseContenedor = require("../contenedores/productFirebaseContenedor");
+const FirebaseContenedor = require("../contenedores/firebaseContenedor");
 const dbFirebase = require("../data/dbFirebaseConfig");
 
 class productDaoFirebase extends FirebaseContenedor {
