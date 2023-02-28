@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
         cb(null, "./public/avatares/");
     },
     filename: function (req, avatar, cb) {
-        const usuario = req.body.email//.slice(0, req.body.email.indexOf("@"));
+        const usuario = req.body.email
         const uniqueSuffix = usuario;
         cb(null, uniqueSuffix+"_"+avatar.originalname);
     },

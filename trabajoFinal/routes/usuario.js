@@ -10,14 +10,10 @@ router.get('/userHome',auth,(req,res)=>{
 router.get('/cuenta',auth,async(req,res)=>{
     try {
         const usuario = await userDao.getByEmail(req.user.email)
-        console.log(usuario)
         res.render("datosPersonales", {usuario})
     } catch (error) {
         res.json({mensaje:error})
     }
-   /* const usuario = await userDao.getByEmail(req.user.email)
-    console.log("usuario",usuario)
-    res.render("datosPersonales",{data:usuario})*/
 })
 
 module.exports = router;
