@@ -1,6 +1,7 @@
 const express = require("express");
 const { Router } = express;
 const product =require('../controllers/productController')
+const {productDao} =require('../daos/index')
 let router = new Router();
 //devuelve todos los productos
 router.get("/", product.getProductsController);
@@ -31,7 +32,7 @@ router.post("/", async (req, res) => {
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
             precio: Number(req.body.precio)*100,
-            foto: req.body.foto,
+            foto: `/images/${req.body.foto}`,
             codigo: req.body.codigo,
             stock: Number(req.body.stock),
         };

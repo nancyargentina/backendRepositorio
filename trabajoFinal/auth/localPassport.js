@@ -4,8 +4,7 @@ const passEncrypt = require("./passEncrypt");
 const { userDao } = require("../daos/index");
 const sendMail = require("../utils/mailer");
 
-passport.use(
-    "login",
+passport.use("login",
     new LocalStrategy(
         {
             usernameField: "email",
@@ -27,8 +26,7 @@ passport.use(
     )
 );
 
-passport.use(
-    "registro",
+passport.use("registro",
     new LocalStrategy(
         {
             usernameField: "email",

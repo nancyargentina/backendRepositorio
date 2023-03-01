@@ -1,4 +1,3 @@
-const { json } = require('express')
 const {productDao} =require('../daos/index')
 //devuelve todos los productos
 const getProductsController = async (req, res) => {
